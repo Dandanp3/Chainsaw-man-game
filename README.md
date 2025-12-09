@@ -11,7 +11,7 @@ Foi muito gratificante perceber o interesse de alunos de outros cursos interagin
 
 ## 🎮 Gameplay
 
-O jogador controla **Denji**, um jovem com o poder do **Demônio da Motosserra**, capaz de transformar partes de seu corpo em lâminas mortais.
+O jogador controla **Denji**, um jovem com o poder do **Demônio da Motosserra**, capaz de transformar partes de seu corpo em lâminas de motosserras mortais.
 O objetivo do jogo é atravessar a **Floresta Negra** até encontrar e derrotar o **Demônio dos Corvos**.
 
 Durante a gameplay, o jogador encontra:
