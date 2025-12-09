@@ -1,4 +1,3 @@
-// Gravidade básica
 var _chao = place_meeting(x, y + 1, objWall);
 if (!_chao)
 {
@@ -8,13 +7,11 @@ if (!_chao)
 if (invulnerabilidade_timer > 0)
 {
     invulnerabilidade_timer--;
-    // Opcional: Efeito visual piscando durante a invulnerabilidade
-    // visible = !((invulnerabilidade_timer div 3) mod 2);
 }
 else
 {
     pode_tomar_dano = true;
-    // visible = true; // Se você usou o efeito de piscar
+    // visible = true; 
 }
 
 switch(estado)
@@ -47,13 +44,11 @@ switch(estado)
 	    {
 	        audio_play_sound(Scream, 1, true);
 	    }
-    
-	    // Momento do Grito (Invocação e Dano)
+
 	    if (image_index >= 3 && !ataque_realizado)
 	    {
 	        ataque_realizado = true;
         
-	        // --- 1. CRIAR DANO ---
 	        if (dano_grito == noone)
 	        {
 	            dano_grito = instance_create_layer(x, y, layer, objDano);
@@ -62,18 +57,13 @@ switch(estado)
 	            dano_grito.image_xscale = 10;
 	            dano_grito.image_yscale = 5;
 	        }
-        
-	        // --- 2. SPAWNAR LOBOS ---
 	        instance_create_layer(x - 150, y - 20, layer, objWolf); 
 	        instance_create_layer(x + 150, y - 20, layer, objWolf);
         
-	        // --- 3. SPAWNAR 8 TRAPS (CORRIGIDO) ---
-	        // Agora este código roda apenas UMA vez por ataque
-        
-	        var _dist_min = 64;       // Distância mínima entre traps
-	        var _tentativas_max = 20; // Tentativas para achar lugar vazio
+	        var _dist_min = 64;       
+	        var _tentativas_max = 20; 
 
-	        repeat(4) // Repete 8 vezes, como você queria
+	        repeat(4)
 	        {
 	            var _trap_spawnada = false;
 	            var _tentativa = 0;
@@ -83,9 +73,7 @@ switch(estado)
 	            {
 	                var _x_aleatorio = irandom_range(50, room_width - 50);
 	                var _y_fixo = 288;
-        
-	                // Checa se a nova posição está livre de outras traps
-	                // Nota: Usamos point_distance para garantir a _dist_min
+
 	                var _trap_perto = instance_nearest(_x_aleatorio, _y_fixo, objTrap);
 	                var _pode_spawnar = true;
 
@@ -110,7 +98,6 @@ switch(estado)
 	        screenshake(5); 
 	    }
 		audio_stop_sound(Scream);
-	    // --- FIM DA ANIMAÇÃO DO GRITO ---
 	    if (image_index >= image_number - 1)
 	    {
 	        estado = "parado";
@@ -128,12 +115,10 @@ switch(estado)
     
     case "dano":
     {
-        // 1. DESLIGA A RECEPÇÃO DE DANO ENQUANTO ESTIVER NESTE ESTADO
         pode_tomar_dano = false; 
         
         sprite_index = sprCrownHurt;
         
-        // A transição só deve ocorrer APÓS o fim da animação de dano.
         if (image_index >= image_number - 1) 
         {
             if (vida_atual <= 0)
@@ -141,9 +126,8 @@ switch(estado)
                 estado = "morte";
                 image_index = 0;
             }
-            else // vida_atual > 0
+            else 
             {
-                // Transiciona para o teleporte (que também é invulnerável)
                 estado = "teleporte"; 
                 image_index = 0; 
             }
@@ -161,12 +145,9 @@ switch(estado)
 	
 	case "teleporte":
     {
-        // 2. DESLIGA A RECEPÇÃO DE DANO ENQUANTO ESTIVER NESTE ESTADO
         pode_tomar_dano = false; 
         
         velh = 0;
-        
-        // 1. ANIMAÇÃO DE SUMIR
         if (sprite_index != sprCrownTP)
         {
             sprite_index = sprCrownTP;
@@ -174,7 +155,6 @@ switch(estado)
             image_speed = 1;
         }
         
-        // 2. TELEPORTE AO FINAL DA ANIMAÇÃO DE SUMIR
         if (image_index >= image_number - 1)
         {
             var _novo_x = irandom_range(50, room_width - 50); 
@@ -182,8 +162,6 @@ switch(estado)
             
             estado = "reaparece";
             image_index = 0;
-            
-            // ... (Restante da lógica)
         }
         break;
     }
@@ -194,21 +172,17 @@ switch(estado)
 	    velh = 0;
 		pode_tomar_dano = true;
     
-	    // 1. ANIMAÇÃO DE APARECER
-	    if (sprite_index != sprCrownTP2) // Use spr_aparecendo aqui, não sprCrowDeath
+	    if (sprite_index != sprCrownTP2)
 	    {
 	        sprite_index = sprCrownTP2;
 	        image_index = 0;
 	        image_speed = 1;
 	    }
     
-	    // 2. VOLTA PARA PARADO/GRITO AO FINAL DA ANIMAÇÃO
 	    if (image_index >= image_number - 1)
 	    {
-	        // Reseta a invulnerabilidade
 	        pode_tomar_dano = true; 
         
-	        // Checa se o timer está pronto para o grito imediato (<= 0)
 	        if (timer_grito <= 0)
 	        {
 	            estado = "grito";
@@ -224,4 +198,5 @@ switch(estado)
 	    break;
 	}
 }
+
 
