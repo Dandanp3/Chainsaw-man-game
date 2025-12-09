@@ -37,3 +37,13 @@ Projeto desenvolvido como parte das atividades da faculdade, com o objetivo de a
 * Organização de projeto
 
 Todo o desenvolvimento foi feito **individualmente**.
+
+---
+
+## ℹ️ Observações sobre o vídeo
+Para tornar a apresentação mais dinâmica:
+* Reduzi a quantidade de áreas do jogo
+* Iniciei o personagem com a barra especial cheia;
+* Diminuí a vida do boss e a taxa de surgimento de armadilhas.
+
+* Vídeo: [Ver demonstração](https://www.youtube.com/watch?v=GLgQ_SLuRSI)
