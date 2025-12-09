@@ -2,7 +2,7 @@
 
 Este é um **jogo no estilo Metroidvania** baseado no universo de *Chainsaw Man*, desenvolvido como **projeto acadêmico da faculdade**, produzido **inteiramente por mim** — da programação às mecânicas e lógica do jogo.
 
-O projeto foi desenvolvido utilizando a ferramenta **GameMaker**, abrangendo desde o código até o design das mecânicas de gameplay.
+O projeto foi desenvolvido utilizando a ferramenta **GameMaker**.
 
 Apesar de não ter conseguido implementar todas as ideias planejadas dentro do prazo e mesmo existindo alguns pequenos bugs, fico extremamente satisfeito com o resultado final e, principalmente, com a experiência de ver tantas pessoas testando e jogando o projeto.
 Foi muito gratificante perceber o interesse de alunos de outros cursos interagindo com o jogo, mostrando como os games podem ser uma ponte entre diferentes áreas e o curso de TI.
