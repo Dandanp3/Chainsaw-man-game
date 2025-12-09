@@ -18,17 +18,10 @@ if (special && ultimate >= 15 && estado != "ultimate")
     image_index = 0;
     sprite_index = sprStance; 
     
-    // 1. Usa o image_xscale do player para calcular o X de spawn:
-    // Se image_xscale = 1 (Direita), (50 * 1) = +50
-    // Se image_xscale = -1 (Esquerda), (50 * -1) = -50
     var _spawn_x = x + (50 * image_xscale);
-    
-    // 2. Cria o objAki e, o mais importante, PASSAMOS A DIREÇÃO PARA ELE.
     var _aki = instance_create_layer(_spawn_x, y - 2, layer, objAki);
-    
-    // 3. Garante que o objAki está olhando para a direção correta:
-    _aki.image_xscale = image_xscale; 
-    // É ESSENCIAL que o objAki tenha o image_xscale do player.
+
+    _aki.image_xscale = image_xscale;
 }
 
 if (ultimate >= 15) {
@@ -36,19 +29,15 @@ if (ultimate >= 15) {
 } else {
     ultimate_brilhando = false;
 }
-
-// 2. Se estiver brilhando, atualiza o timer
 if (ultimate_brilhando) {
     // Aumenta o contador (velocidade do brilho)
     ultimate_brilho_timer += 0.1; 
-    
-    // Mantém o timer dentro de um ciclo
     if (ultimate_brilho_timer >= 360) {
         ultimate_brilho_timer = 0;
     }
 }
 
-if (block) // Se a tecla 'F' estiver sendo pressionada
+if (block) 
 {
     // O Player só pode defender se não estiver atacando, tomando dano ou morrendo.
     if (estado != "ataque" && estado != "dano" && estado != "morte")
@@ -87,22 +76,14 @@ switch(estado)
             intro_snd_id = audio_play_sound(intro_snd, 10, false);
         }
 
-        // Termino da animação
         if (image_index >= image_number - 1)
         {
             image_index = image_number - 1;
 
-            // --- AQUI ESTÁ A MUDANÇA ---
             if (intro_snd_id != -1 && audio_is_playing(intro_snd_id)) 
             {
-                // Em vez de parar na hora, mandamos o volume ir para 0 em 500ms
-                // Parametros: (ID do som, Volume Alvo, Tempo em ms)
                 audio_sound_gain(intro_snd_id, 0, 500);
             }
-            // ---------------------------
-
-            // Limpamos o ID para não perder a referência, 
-            // mas o GameMaker continuará o fade no background até o som acabar ou chegar a 0.
             intro_snd_id = -1; 
 
             estado = "parado";
@@ -126,11 +107,7 @@ switch(estado)
 		}
 		else if (jump || velv != 0)
 		{
-		    // --- LÓGICA DO SOM DE PULO AQUI ---
 		    audio_play_sound(Jump, 1, false); 
-		    // O 'false' garante que toca UMA VEZ e não fica em loop
-    
-		    // Seu código original
 		    estado = "pulando";
 		    velv = (-max_velv * jump);
 		    image_index = 0;
@@ -148,34 +125,23 @@ switch(estado)
 	case "movendo":
 	{
 	    sprite_index = sprRun;
-    
-	    // --- LÓGICA DO SOM ---
-	    // Se o som NÃO (!) estiver tocando, dá o play
-	    // O 'true' no final significa que ele vai ficar em loop (repetindo)
+
 	    if (!audio_is_playing(Footsteps))
 	    {
 	        audio_play_sound(Footsteps, 1, true);
 	    }
-	    // ---------------------
-
-	    // Troca de estado
-		// Parado
 		if (abs(velh) < .1)
 		{
 		    estado = "parado";  
-		    audio_stop_sound(Footsteps); // Parar passos
+		    audio_stop_sound(Footsteps); 
 		}
 
-		// Pulo
 		else if (jump || velv != 0)
 		{
-		    // Parar o som de passos antes de pular
 		    audio_stop_sound(Footsteps); 
     
-		    // Tocar o som de pulo UMA VEZ
 		    audio_play_sound(Jump, 1, false); 
     
-		    // Seu código original
 		    estado = "pulando";
 		    velv = (-max_velv * jump);
 		    image_index = 0;
@@ -218,7 +184,7 @@ switch(estado)
 	    if (chao)
 	    {
         
-	        audio_play_sound(Fall, 1, false); // O 'false' garante que não fica em loo
+	        audio_play_sound(Fall, 1, false); // O 'false' garante que não fica em loop
 	        estado = "parado"; 
 	    }
     
@@ -282,10 +248,7 @@ switch(estado)
 	    {
 	        sprite_index = sprAtk4; 
 	    }
-    
-	    // --- AQUI É A MUDANÇA ---
-	    // Criando obj Dano e Tocando o Som
-	    // Esse bloco roda apenas UMA vez por ataque (no frame 2), perfeito para o som
+
 	    if (image_index >= 2 && dano == noone && posso)
 	    {
 	        dano = instance_create_layer(x + sprite_width/2, y - sprite_height/11, layer, objDano); 
@@ -322,8 +285,6 @@ switch(estado)
 	            dano = noone;
 	        }
 	    }
-    
-	    // Fim do ataque
 	    if (image_index > image_number-1)
 	    {
 	        estado = "parado";
@@ -352,10 +313,7 @@ switch(estado)
 			screenshake(5);
 		}
 		
-		// Parado ao tomar hit
 		velh = 0;
-		
-		//Saindo
 		
 		// checando morte
 		if (vida_atual > 0)
@@ -407,9 +365,7 @@ switch(estado)
 	case "defendendo":
 	{
 	    sprite_index = sprPlayerParry; // Use o sprite de defesa aqui
-	    velh = 0; // O Player não pode se mover enquanto defende
-    
-	    // Se a tecla de defesa (F) for solta, volta para o estado parado
+	    velh = 0; 
 	    if (!block)
 	    {
 	        estado = "parado";
@@ -420,11 +376,8 @@ switch(estado)
 	
 	case "ultimate":
 	{
-	    // O player fica travado. 
-	    // Quem vai tirar o player desse estado será o objKon quando terminar tudo.
 	    velh = 0;
     
-	    // Opcional: Se tiver animação de 'castando' magia, controla aqui
 	    break;
 	}
 	
@@ -434,5 +387,6 @@ switch(estado)
 		estado = "parado"	
 	}
 }
+
 
 if (keyboard_check(vk_enter) or gamepad_button_check_pressed(global.gamepad_id, gp_start)) game_restart();
